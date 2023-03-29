@@ -1,10 +1,8 @@
 package org.example.controllers;
 
-import org.example.controllers.dto.ActivateRequestDto;
-import org.example.controllers.dto.ActivateResponseDto;
-import org.example.controllers.dto.RegistrationRequestDto;
-import org.example.controllers.dto.RegistrationResponseDto;
-import org.example.controllers.dto.StatusResponse;
+import it.pasqualecavallo.studentsmaterial.authorization_framework.security.ZeroSecurity;
+import org.example.controllers.dto.*;
+import org.example.service.AnagraficaUtenteService;
 import org.example.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +39,13 @@ public class UtenteController {
 		String username = AuthenticationContext.get().getUsername();
 		return utenteService.promoteMe(username);
 	}
-	
-	
+	@Autowired
+	private AnagraficaUtenteService anagraficaUt;
+
+	@PostMapping("/create-anagrafica")
+	@ZeroSecurity
+	public AnagraficaUtenteResponseDto createAnagrafica(@RequestBody AnagraficaUtenteRequestDto request){
+		return anagraficaUt.postAnagrafica(request);
+	}
+
 }
